@@ -34,6 +34,13 @@ jobs:
       run: |
         flake8 src tests
 
-    - name: Run tests
+    - name: Run tests (Linux/Mac)
+      if: runner.os != 'Windows'
       run: |
         PYTHONPATH=./src pytest
+
+    - name: Run tests (Windows)
+      if: runner.os == 'Windows'
+      run: |
+        $env:PYTHONPATH = ".\src"
+        pytest
