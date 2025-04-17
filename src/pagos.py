@@ -8,9 +8,10 @@ def verificar_saldo_en_banco(usuario: str) -> float:
     raise NotImplementedError("Esta función simula un sistema externo.")
 
 
-def procesar_pago(usuario: str, monto: float, verificador: Callable[[str], float]) -> bool:
-    """
-    Retorna True si el usuario tiene saldo suficiente y se puede procesar el pago.
-    """
+def procesar_pago(
+    usuario: str,
+    monto: float,
+    verificador: Callable[[str], float]
+) -> bool:
     saldo = verificador(usuario)
     return saldo >= monto
