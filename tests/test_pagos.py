@@ -1,12 +1,21 @@
-# my_project/tests/test_pagos.py
-
-from src.pagos import procesar_pago
+import pytest
 from unittest.mock import Mock
+from src.pagos import procesar_pago
 
-def test_pago_aprobado():
-    mock_verificador = Mock(return_value=1000.0)
-    assert procesar_pago("juan", 500.0, mock_verificador) is True
 
-def test_pago_rechazado():
+def test_pago_con_saldo_suficiente():
     mock_verificador = Mock(return_value=100.0)
-    assert procesar_pago("juan", 200.0, mock_verificador) is False
+    resultado = procesar_pago("usuario1", 50.0, mock_verificador)
+    assert resultado is True
+
+
+def test_pago_con_saldo_insuficiente():
+    mock_verificador = Mock(return_value=20.0)
+    resultado = procesar_pago("usuario1", 50.0, mock_verificador)
+    assert resultado is False
+
+
+def test_procesar_pago_llama_al_verificador():
+    mock_verificador = Mock(return_value=100.0)
+    procesar_pago("usuario2", 30.0, mock_verificador)
+    mock_verificador.assert_called_once_with("usuario2")
